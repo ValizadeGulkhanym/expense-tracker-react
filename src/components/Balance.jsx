@@ -7,6 +7,7 @@ const Balance = ({ income, expense}) => {
     const total = income + expense
     console.log(income, expense)
     setBalance(total)
+
   }, [income, expense]);
  
   return (

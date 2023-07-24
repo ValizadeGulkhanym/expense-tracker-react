@@ -2,17 +2,25 @@ import React, {useState} from "react";
 import { v4 as uuidv4 } from "uuid";
 
 
-const AddTransaction = ({todos, setTodos}) => {
+const AddTransaction = ({todos, setTodos, setExpense, setIncome}) => {
   const [amount, setAmount] = useState("");
   const [text, setText] = useState("");
 
   
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if(+amount > 0) {
+      setIncome(prev => prev + +amount)
+    }else {
+      setExpense(prev => prev + +amount)
+    }
+
     setTodos([...todos, { text, amount, id: uuidv4() }]);
     localStorage.setItem(
       "todos",
       JSON.stringify([...todos, { text, amount,  id: uuidv4() }])
+
     );
     setText("");
     setAmount('');
@@ -25,7 +33,7 @@ const AddTransaction = ({todos, setTodos}) => {
         <div className="form-control">
           <label htmlFor="text">Text</label>
           <input
-            className="w-full h-[36px] outline-stone-300  placeholder:text-stone-200 block bg-gradient-to-r from-stone-400"
+            className="w-full h-[36px] outline-stone-300 px-2 placeholder:text-stone-200 block bg-gradient-to-r from-stone-400"
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -39,7 +47,7 @@ const AddTransaction = ({todos, setTodos}) => {
             (negative-expense, positive-income)
           </label>
           <input
-            className="w-full h-[36px] outline-stone-300  placeholder:text-stone-200 block bg-gradient-to-r from-stone-400"
+            className="w-full h-[36px] outline-stone-300 px-2 placeholder:text-stone-200 block bg-gradient-to-r from-stone-400"
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}

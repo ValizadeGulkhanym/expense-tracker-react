@@ -1,18 +1,7 @@
 import React, { useEffect } from "react";
 
-const IncomeExpence = ({ todos, setExpense, setIncome, expense, income }) => {
-  useEffect(() => {
-    todos.map((item) => {
-      if (parseInt(item.amount) > 0) {
-        setIncome((prev) => prev + parseInt(item.amount));
-      }
-      if (parseInt(item.amount) < 0) {
-        setExpense((prev) => prev + parseInt(item.amount));
-      }
-    });
-  }, [todos]);
-
-  console.log(income, expense);
+const IncomeExpence = ({ expense, income }) => {
+  
   return (
     <div className='flex justify-around items-center w-96 h-28 bg-orange-300 rounded-3xl "'>
       <div>

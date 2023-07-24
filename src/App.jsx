@@ -8,13 +8,39 @@ function App() {
   const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todos")) || []
   );
-  const [income, setIncome]= useState(0);
-  const [expense, setExpense]= useState(0);
 
-const deleteTodo = (id)=>{
-  const newTodos = todos.filter(todo=>id !== todo.id)
-setTodos(newTodos);
-}
+  const [income, setIncome] = useState(
+    todos.length > 0
+      ? todos.reduce((total, el) => {
+          
+          if (+el.amount > 0) {
+            return total + +el.amount;
+          } else {
+            return total;
+          }
+        }, 0)
+      : 0
+  );
+
+  const [expense, setExpense] = useState(
+    todos.length > 0
+      ? todos.reduce((total, current) => {
+          console.log(current);
+          if (+current.amount < 0) {
+            return total + +current.amount;
+          } else {
+            return total;
+          }
+        }, 0)
+      : 0
+  );
+
+  const deleteTodo = (id) => {
+    const newTodos = todos.filter((todo) => id !== todo.id);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+    console.log(newTodos);
+    setTodos(newTodos);
+  };
 
   return (
     <>
@@ -24,11 +50,19 @@ setTodos(newTodos);
         </h1>
         <div className="flex  justify-around ">
           <div className="flex flex-col gap-5  mt-[200px]">
-            <Balance todos={todos} income= {income} expense= {expense}/>
-            <IncomeExpence todos={todos} setIncome={setIncome} setExpense={setExpense} income={income} expense={expense}/>
+            <Balance todos={todos} income={income} expense={expense} />
+            <IncomeExpence
+              todos={todos}
+              setIncome={setIncome}
+              setExpense={setExpense}
+              income={income}
+              expense={expense}
+            />
           </div>
           <div className="relative bottom-[30px] left-[150px] w-1/3">
             <AddTransaction
+              setExpense={setExpense}
+              setIncome={setIncome}
               todos={todos}
               setTodos={setTodos}
             />
