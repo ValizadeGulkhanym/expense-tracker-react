@@ -1,35 +1,34 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-
-const AddTransaction = ({todos, setTodos, setExpense, setIncome}) => {
+const AddTransaction = ({ todos, setTodos, setExpense, setIncome }) => {
   const [amount, setAmount] = useState("");
   const [text, setText] = useState("");
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if(+amount > 0) {
-      setIncome(prev => prev + +amount)
-    }else {
-      setExpense(prev => prev + +amount)
+    if (!amount) return;
+    if (+amount > 0) {
+      setAmount((prev) => prev + +amount);
+    } else {
+      setAmount((prev) => prev + +amount);
     }
 
     setTodos([...todos, { text, amount, id: uuidv4() }]);
     localStorage.setItem(
       "todos",
-      JSON.stringify([...todos, { text, amount,  id: uuidv4() }])
-
+      JSON.stringify([...todos, { text, amount, id: uuidv4() }])
     );
     setText("");
-    setAmount('');
+    setAmount("");
   };
+
   return (
-    <div className="p-4 text-stone-500  space-y-[10px]">
-      <h3 className="text-xl  border-b border-stone-400">Add new transaction</h3>
-      <form className="flex flex-col gap-5"
-       onSubmit={handleSubmit}>
+    <div className=" p-4 text-stone-500  space-y-[10px]">
+      <h3 className="text-xl  border-b border-stone-400">
+        Add new transaction
+      </h3>
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="text">Text</label>
           <input

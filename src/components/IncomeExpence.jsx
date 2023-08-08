@@ -1,7 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-const IncomeExpence = ({ expense, income }) => {
-  
+const IncomeExpence = ({ todos }) => {
+  const income =
+    todos.length > 0
+      ? todos.reduce((total, el) => {
+          if (+el.amount > 0) {
+            return total + +el.amount;
+          } else {
+            return total;
+          }
+        }, 0)
+      : 0;
+
+      const expense =
+      todos.length > 0
+      ? todos.reduce((total, el) => {
+          console.log(el);
+          if (+el.amount < 0) {
+            return total + +el.amount;
+          } else {
+            return total;
+          }
+        }, 0)
+        : 0;
+
   return (
     <div className='flex justify-around items-center w-96 h-28 bg-orange-300 rounded-3xl "'>
       <div>
